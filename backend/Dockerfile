@@ -1,6 +1,13 @@
-FROM node:20-alpine
+FROM ubuntu:22.04
 
-RUN apk add --no-cache mysql mysql-client
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    mysql-server \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean
 
 WORKDIR /app
 
@@ -10,10 +17,7 @@ RUN npm install --production
 
 COPY . .
 
-COPY init.sql /docker-entrypoint-initdb.d/init.sql
-
-EXPOSE 5000
-
+COPY init.sql /init.sql
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 

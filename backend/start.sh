@@ -1,13 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 # Start MySQL
-mkdir -p /var/lib/mysql
-mysql_install_db --user=root --datadir=/var/lib/mysql > /dev/null 2>&1
-
-mysqld_safe --datadir=/var/lib/mysql &
+service mysql start
 
 # Wait for MySQL to be ready
-echo "Waiting for MySQL to start..."
+echo "Waiting for MySQL..."
 until mysqladmin ping --silent; do
   sleep 2
 done
@@ -15,11 +12,10 @@ done
 echo "MySQL is ready"
 
 # Run init SQL
-mysql -u root < /app/init.sql
+mysql -u root < /init.sql
 
 # Set root password
-mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Humph2026!Secure'; FLUSH PRIVILEGES;"
+mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Humph2026!Secure'; FLUSH PRIVILEGES;"
 
-# Start Node.js backend
 echo "Starting Node.js backend..."
-node server.js
+node /app/server.js
