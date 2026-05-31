@@ -9,6 +9,7 @@ services:
     network_mode: host
     environment:
       DB_HOST: 127.0.0.1
+      DB_PORT: 5051
       DB_USER: root
       DB_PASSWORD: Humph2026!Secure
       DB_NAME: user_management

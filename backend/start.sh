@@ -1,5 +1,11 @@
 #!/bin/bash
 
+echo "Configuring MariaDB to listen on port 5051..."
+cat > /etc/mysql/mariadb.conf.d/99-custom-port.cnf << 'EOF'
+[mysqld]
+port=5051
+EOF
+
 echo "Starting MariaDB..."
 service mariadb start
 
