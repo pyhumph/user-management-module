@@ -9,7 +9,7 @@ export default function Roles() {
   const [message, setMessage] = useState('')
 
   const fetchRoles = async () => {
-    const res = await axios.get('http://localhost:5000/api/roles', {
+    const res = await axios.get('http://209.74.72.96:5050/api/roles', {
       headers: { Authorization: `Bearer ${token}` }
     })
     setRoles(res.data)
@@ -19,7 +19,7 @@ export default function Roles() {
 
   const createRole = async () => {
     try {
-      await axios.post('http://localhost:5000/api/roles',
+      await axios.post('http://209.74.72.96:5050/api/roles',
         { name: newRole },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -33,7 +33,7 @@ export default function Roles() {
 
   const deleteRole = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/roles/${id}`, {
+      await axios.delete(`http://209.74.72.96:5050/api/roles/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       setMessage('Role deleted')

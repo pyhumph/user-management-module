@@ -13,14 +13,14 @@ export default function Users() {
   })
 
   const fetchUsers = async () => {
-    const res = await axios.get('http://localhost:5000/api/users', {
+    const res = await axios.get('http://209.74.72.96:5050/api/users', {
       headers: { Authorization: `Bearer ${token}` }
     })
     setUsers(res.data)
   }
 
   const fetchRoles = async () => {
-    const res = await axios.get('http://localhost:5000/api/roles', {
+    const res = await axios.get('http://209.74.72.96:5050/api/roles', {
       headers: { Authorization: `Bearer ${token}` }
     })
     setRoles(res.data)
@@ -33,7 +33,7 @@ export default function Users() {
 
   const createUser = async () => {
     try {
-      await axios.post('http://localhost:5000/api/users', newUser, {
+      await axios.post('http://209.74.72.96:5050/api/users', newUser, {
         headers: { Authorization: `Bearer ${token}` }
       })
       setMessage('User created successfully')
@@ -47,7 +47,7 @@ export default function Users() {
 
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${id}`, {
+      await axios.delete(`http://209.74.72.96:5050/api/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       setMessage('User deleted')
@@ -60,7 +60,7 @@ export default function Users() {
   const updateRole = async (userId, roleId) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/users/${userId}/role`,
+        `http://209.74.72.96:5050/api/users/${userId}/role`,
         { role_id: roleId },
         { headers: { Authorization: `Bearer ${token}` } }
       )

@@ -1,24 +1,34 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+COPY backend/sources.list /etc/apt/sources.list.d/ubuntu.sources
+
 RUN apt-get update && apt-get install -y \
-    curl \
     mysql-server \
-    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
+    nodejs \
+    npm \
+    nginx \
     && apt-get clean
 
+# Install Node 20 properly
+RUN npm install -g n && n 20
+
+# Backend
 WORKDIR /app
-
-COPY package*.json ./
-
+COPY backend/package*.json ./
 RUN npm install --production
+COPY backend/ .
 
-COPY . .
+# Frontend
+WORKDIR /frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ .
+RUN npm run build
 
-COPY init.sql /init.sql
-COPY start.sh /start.sh
+COPY backend/init.sql /init.sql
+COPY backend/start.sh /start.sh
 RUN chmod +x /start.sh
 
 CMD ["/start.sh"]
