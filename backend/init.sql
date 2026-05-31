@@ -17,3 +17,9 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 INSERT IGNORE INTO roles (name) VALUES ('admin'), ('manager'), ('user');
+
+-- Seed test accounts (password for all: "password")
+INSERT IGNORE INTO users (name, email, password, role_id) VALUES
+  ('Admin User',   'admin@test.com',   '$2b$10$sir664FHj61BfzyQ.zpCBu6E8NkVuf4AAQl.YfXZ/S3WP.qX.PC4y', (SELECT id FROM roles WHERE name = 'admin')),
+  ('Manager User', 'manager@test.com', '$2b$10$sir664FHj61BfzyQ.zpCBu6E8NkVuf4AAQl.YfXZ/S3WP.qX.PC4y', (SELECT id FROM roles WHERE name = 'manager')),
+  ('Regular User', 'user@test.com',    '$2b$10$sir664FHj61BfzyQ.zpCBu6E8NkVuf4AAQl.YfXZ/S3WP.qX.PC4y', (SELECT id FROM roles WHERE name = 'user'));
