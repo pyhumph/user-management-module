@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
+      network: host
     container_name: user-management-app
     restart: always
     network_mode: host
