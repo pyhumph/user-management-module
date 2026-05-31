@@ -1,17 +1,16 @@
 #!/bin/bash
 
-echo "Starting MySQL..."
-usermod -d /var/lib/mysql mysql
-service mysql start
+echo "Starting MariaDB..."
+service mariadb start
 
 until mysqladmin ping --silent; do
-  echo "Waiting for MySQL..."
+  echo "Waiting for MariaDB..."
   sleep 2
 done
 
-echo "MySQL ready. Setting up database..."
+echo "MariaDB ready. Setting up database..."
 mysql -u root < /init.sql
-mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Humph2026!Secure'; FLUSH PRIVILEGES;"
+mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('Humph2026!Secure'); FLUSH PRIVILEGES;"
 
 echo "Configuring Nginx for frontend on port 5052..."
 cat > /etc/nginx/sites-available/default << 'EOF'
@@ -33,8 +32,8 @@ cd /app && node server.js &
 
 echo "==============================="
 echo "All services running:"
-echo "  Backend API : http://YOUR_VPS_IP:5050"
-echo "  Frontend    : http://YOUR_VPS_IP:5052"
+echo "  Backend API : port 5050"
+echo "  Frontend    : port 5052"
 echo "==============================="
 
 wait

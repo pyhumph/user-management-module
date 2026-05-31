@@ -5,22 +5,18 @@ ENV DEBIAN_FRONTEND=noninteractive
 COPY backend/sources.list /etc/apt/sources.list.d/ubuntu.sources
 
 RUN apt-get update && apt-get install -y \
-    mysql-server \
-    nodejs \
-    npm \
+    mariadb-server \
     nginx \
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     && apt-get clean
 
-# Install Node 20 properly
-RUN npm install -g n && n 20
-
-# Backend
 WORKDIR /app
 COPY backend/package*.json ./
 RUN npm install --production
 COPY backend/ .
 
-# Frontend
 WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm install
